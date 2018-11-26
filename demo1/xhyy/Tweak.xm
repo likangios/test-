@@ -120,10 +120,10 @@ NSLog(@"%d",rect);
     if(btn.selected){
     label.text = @"0";
     }
-
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if(version.intValue < 3.0){
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<3;i++){
                 //[self actionReg:self.submitBtn];
                 [self.context.businessHandler doReg];
             }
@@ -135,6 +135,9 @@ NSLog(@"%d",rect);
      UIButton *button = [self viewWithTag:999];
     UILabel *label = [self viewWithTag:888];
     label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+    label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+    //label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+
     if ([arg1 isEqualToString:@"errorModel"]) {
             %orig;
         if (button.isSelected) {
@@ -156,9 +159,10 @@ NSLog(@"%d",rect);
 
 	%orig;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"开始挂号" forState:UIControlStateNormal];
+    [button setTitle:@"开始" forState:UIControlStateNormal];
     [button setTitle:@"停止" forState:UIControlStateSelected];
-    [button setBackgroundColor:[UIColor orangeColor]];
+    //[button setBackgroundColor:[UIColor orangeColor]];
+    [button setBackgroundColor:[UIColor purpleColor]];
     button.tag = 999;
     button.frame = CGRectMake(20, 100, 100, 40);
     [button addTarget:self action:@selector(testClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -169,7 +173,8 @@ NSLog(@"%d",rect);
     label.tag = 888;
     label.backgroundColor = [UIColor blackColor];
     label.textColor = [UIColor whiteColor];
-    label.frame = CGRectMake(20, 150, 100, 40);
+    label.hidden = YES;
+    label.frame = CGRectMake(100, 150, 100, 40);
     [self addSubview:label];
 
 }

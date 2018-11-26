@@ -146,10 +146,10 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$testClick$(_LOGOS_S
     if(btn.selected){
     label.text = @"0";
     }
-
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if(version.intValue < 3.0){
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<3;i++){
                 
                 [self.context.businessHandler doReg];
             }
@@ -161,6 +161,9 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyP
      UIButton *button = [self viewWithTag:999];
     UILabel *label = [self viewWithTag:888];
     label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+    label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+    
+
     if ([arg1 isEqualToString:@"errorModel"]) {
             _logos_orig$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$(self, _cmd, arg1, arg2, arg3, arg4);
         if (button.isSelected) {
@@ -182,9 +185,10 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView
 
 	_logos_orig$_ungrouped$HsAppointmentSubmitView$loadTableFooterView(self, _cmd);
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"开始挂号" forState:UIControlStateNormal];
+    [button setTitle:@"开始" forState:UIControlStateNormal];
     [button setTitle:@"停止" forState:UIControlStateSelected];
-    [button setBackgroundColor:[UIColor orangeColor]];
+    
+    [button setBackgroundColor:[UIColor purpleColor]];
     button.tag = 999;
     button.frame = CGRectMake(20, 100, 100, 40);
     [button addTarget:self action:@selector(testClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -195,7 +199,8 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView
     label.tag = 888;
     label.backgroundColor = [UIColor blackColor];
     label.textColor = [UIColor whiteColor];
-    label.frame = CGRectMake(20, 150, 100, 40);
+    label.hidden = YES;
+    label.frame = CGRectMake(100, 150, 100, 40);
     [self addSubview:label];
 
 }
@@ -206,4 +211,4 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView
 
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$HsTodayDocSchListDataHandler = objc_getClass("HsTodayDocSchListDataHandler"); MSHookMessageEx(_logos_class$_ungrouped$HsTodayDocSchListDataHandler, @selector(isEnableClickBtn:), (IMP)&_logos_method$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$, (IMP*)&_logos_orig$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$);Class _logos_class$_ungrouped$HsBaseRequest = objc_getClass("HsBaseRequest"); MSHookMessageEx(_logos_class$_ungrouped$HsBaseRequest, @selector(startWithSuccessBlock:failureBlock:), (IMP)&_logos_method$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$, (IMP*)&_logos_orig$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$);Class _logos_class$_ungrouped$HsAppointmentSubmitView = objc_getClass("HsAppointmentSubmitView"); { char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; memcpy(_typeEncoding + i, @encode(UIButton *), strlen(@encode(UIButton *))); i += strlen(@encode(UIButton *)); _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(testClick:), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$testClick$, _typeEncoding); }MSHookMessageEx(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(observeValueForKeyPath:ofObject:change:context:), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$, (IMP*)&_logos_orig$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$);MSHookMessageEx(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(loadTableFooterView), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView, (IMP*)&_logos_orig$_ungrouped$HsAppointmentSubmitView$loadTableFooterView);} }
-#line 181 "Tweak.xm"
+#line 186 "Tweak.xm"
