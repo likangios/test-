@@ -123,20 +123,18 @@ NSLog(@"%d",rect);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if(version.intValue < 3.0){
-            for(int i = 0;i<3;i++){
+            for(int i = 0;i<5;i++){
                 //[self actionReg:self.submitBtn];
                 [self.context.businessHandler doReg];
             }
     		//[self performSelector:@selector(actionReg:) withObject:self.submitBtn afterDelay:0];
         }
 }
-
 - (void)observeValueForKeyPath:(NSString *)arg1 ofObject:(id)arg2 change:(id)arg3 context:(void *)arg4{
      UIButton *button = [self viewWithTag:999];
     UILabel *label = [self viewWithTag:888];
     label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
     label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-    //label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
 
     if ([arg1 isEqualToString:@"errorModel"]) {
             %orig;
@@ -159,7 +157,7 @@ NSLog(@"%d",rect);
 
 	%orig;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"开始" forState:UIControlStateNormal];
+    [button setTitle:@"开始挂号" forState:UIControlStateNormal];
     [button setTitle:@"停止" forState:UIControlStateSelected];
     //[button setBackgroundColor:[UIColor orangeColor]];
     [button setBackgroundColor:[UIColor purpleColor]];
@@ -173,8 +171,8 @@ NSLog(@"%d",rect);
     label.tag = 888;
     label.backgroundColor = [UIColor blackColor];
     label.textColor = [UIColor whiteColor];
-    label.hidden = YES;
-    label.frame = CGRectMake(100, 150, 100, 40);
+    //label.hidden = YES;
+    label.frame = CGRectMake(20, 150, 100, 40);
     [self addSubview:label];
 
 }
