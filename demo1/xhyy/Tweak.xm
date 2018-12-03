@@ -3,6 +3,11 @@
 
 %hook HsTodayDocSchListDataHandler
 
+- (BOOL)isEnableClickBtn:(id)btn{
+    %orig;
+    return YES;
+}
+
 // Hooking a class method
 /*
 + (id)sharedInstance {
@@ -22,10 +27,7 @@
 }
 */
 
-- (BOOL)isEnableClickBtn:(id)btn{
-	%orig;
-	return YES;
-}
+
 
 // Hooking an instance method with no arguments.
 /*
@@ -123,7 +125,7 @@ NSLog(@"%d",rect);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if(version.intValue < 3.0){
-            for(int i = 0;i<5;i++){
+            for(int i = 0;i<10;i++){
                 //[self actionReg:self.submitBtn];
                 [self.context.businessHandler doReg];
             }
@@ -134,7 +136,7 @@ NSLog(@"%d",rect);
      UIButton *button = [self viewWithTag:999];
     UILabel *label = [self viewWithTag:888];
     label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-    label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+    //label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
 
     if ([arg1 isEqualToString:@"errorModel"]) {
             %orig;
@@ -154,7 +156,6 @@ NSLog(@"%d",rect);
 }
 - (void)loadTableFooterView
 {
-
 	%orig;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"开始挂号" forState:UIControlStateNormal];
