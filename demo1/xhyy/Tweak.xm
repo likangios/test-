@@ -178,6 +178,21 @@ NSLog(@"%d",rect);
 
 }
 %end
+%hook UIViewController
+- (void)viewWillAppear:(BOOL)animated{
+    %orig;
+     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"tip" message:NSStringFromClass(self.class) preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:NULL];
+}
+- (void)viewDidLoad{
+    %orig; 
+}
+%end
+
 
 
 
