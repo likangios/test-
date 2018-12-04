@@ -193,6 +193,25 @@ NSLog(@"%d",rect);
 }
 %end
 
+/*
+%hook  AFSecurityPolicy
+- (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust
+                  forDomain:(NSString *)domain
+{
+    BOOL rect = %orig;
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"tip" message:rect?@"rect=YES":@"rect=NO" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:NULL];
+    return rect;
+}
+%end
+*/
+
+
+
 
 
 
