@@ -125,7 +125,7 @@ NSLog(@"%d",rect);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if(version.intValue < 3.0){
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<5;i++){
                 //[self actionReg:self.submitBtn];
                 [self.context.businessHandler doReg];
             }
@@ -186,6 +186,7 @@ NSLog(@"%d",rect);
 
 }
 %end
+/*
 %hook UIViewController
 - (void)viewWillAppear:(BOOL)animated{
     %orig;
@@ -201,7 +202,7 @@ NSLog(@"%d",rect);
 }
 %end
 
-/*
+
 %hook  AFSecurityPolicy
 - (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust
                   forDomain:(NSString *)domain
