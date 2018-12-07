@@ -125,7 +125,7 @@ NSLog(@"%d",rect);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if(version.intValue < 3.0){
-            for(int i = 0;i<5;i++){
+            for(int i = 0;i<3;i++){
                 //[self actionReg:self.submitBtn];
                 [self.context.businessHandler doReg];
             }
@@ -136,8 +136,6 @@ NSLog(@"%d",rect);
      UIButton *button = [self viewWithTag:999];
     UILabel *label = [self viewWithTag:888];
     label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-    //label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-
     if ([arg1 isEqualToString:@"errorModel"]) {
             %orig;
             if([[[[arg2 valueForKeyPath:@"errorModel"] valueForKeyPath:@"userInfo"] valueForKeyPath:@"msg"] isEqualToString:@"该就诊人已有一个预约申请正在处理中,请耐心等待"]){
@@ -145,12 +143,9 @@ NSLog(@"%d",rect);
             }
             else{
                 if (button.isSelected) {
-
                     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
                     if(version.intValue < 3.0){
                             [self.context.businessHandler doReg];
-                    //  [self actionReg:self.submitBtn];
-                    //[self performSelector:@selector(actionReg:) withObject:self.submitBtn afterDelay:0];
                     }   
                 }
 
@@ -166,7 +161,7 @@ NSLog(@"%d",rect);
 {
 	%orig;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"开始挂号" forState:UIControlStateNormal];
+    [button setTitle:@"开始" forState:UIControlStateNormal];
     [button setTitle:@"停止" forState:UIControlStateSelected];
     //[button setBackgroundColor:[UIColor orangeColor]];
     [button setBackgroundColor:[UIColor purpleColor]];

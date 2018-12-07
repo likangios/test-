@@ -23,7 +23,7 @@
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class HsTodayDocSchListDataHandler; @class HsAppointmentSubmitView; @class HsBaseRequest; 
+@class HsBaseRequest; @class HsAppointmentSubmitView; @class HsTodayDocSchListDataHandler; 
 static BOOL (*_logos_orig$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$)(_LOGOS_SELF_TYPE_NORMAL HsTodayDocSchListDataHandler* _LOGOS_SELF_CONST, SEL, id); static BOOL _logos_method$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$(_LOGOS_SELF_TYPE_NORMAL HsTodayDocSchListDataHandler* _LOGOS_SELF_CONST, SEL, id); static void (*_logos_orig$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$)(_LOGOS_SELF_TYPE_NORMAL HsBaseRequest* _LOGOS_SELF_CONST, SEL, id, id); static void _logos_method$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$(_LOGOS_SELF_TYPE_NORMAL HsBaseRequest* _LOGOS_SELF_CONST, SEL, id, id); static void _logos_method$_ungrouped$HsAppointmentSubmitView$testClick$(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL, UIButton *); static void (*_logos_orig$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$)(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL, NSString *, id, id, void *); static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL, NSString *, id, id, void *); static void (*_logos_orig$_ungrouped$HsAppointmentSubmitView$loadTableFooterView)(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL); 
 
 #line 4 "Tweak.xm"
@@ -151,7 +151,7 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$testClick$(_LOGOS_S
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if(version.intValue < 3.0){
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<3;i++){
                 
                 [self.context.businessHandler doReg];
             }
@@ -162,8 +162,6 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyP
      UIButton *button = [self viewWithTag:999];
     UILabel *label = [self viewWithTag:888];
     label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-    
-
     if ([arg1 isEqualToString:@"errorModel"]) {
             _logos_orig$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$(self, _cmd, arg1, arg2, arg3, arg4);
             if([[[[arg2 valueForKeyPath:@"errorModel"] valueForKeyPath:@"userInfo"] valueForKeyPath:@"msg"] isEqualToString:@"该就诊人已有一个预约申请正在处理中,请耐心等待"]){
@@ -171,12 +169,9 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyP
             }
             else{
                 if (button.isSelected) {
-
                     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
                     if(version.intValue < 3.0){
                             [self.context.businessHandler doReg];
-                    
-                    
                     }   
                 }
 
@@ -192,7 +187,7 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyP
 static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
 	_logos_orig$_ungrouped$HsAppointmentSubmitView$loadTableFooterView(self, _cmd);
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"开始挂号" forState:UIControlStateNormal];
+    [button setTitle:@"开始" forState:UIControlStateNormal];
     [button setTitle:@"停止" forState:UIControlStateSelected];
     
     [button setBackgroundColor:[UIColor purpleColor]];
@@ -253,4 +248,4 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView
 
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$HsTodayDocSchListDataHandler = objc_getClass("HsTodayDocSchListDataHandler"); MSHookMessageEx(_logos_class$_ungrouped$HsTodayDocSchListDataHandler, @selector(isEnableClickBtn:), (IMP)&_logos_method$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$, (IMP*)&_logos_orig$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$);Class _logos_class$_ungrouped$HsBaseRequest = objc_getClass("HsBaseRequest"); MSHookMessageEx(_logos_class$_ungrouped$HsBaseRequest, @selector(startWithSuccessBlock:failureBlock:), (IMP)&_logos_method$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$, (IMP*)&_logos_orig$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$);Class _logos_class$_ungrouped$HsAppointmentSubmitView = objc_getClass("HsAppointmentSubmitView"); { char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; memcpy(_typeEncoding + i, @encode(UIButton *), strlen(@encode(UIButton *))); i += strlen(@encode(UIButton *)); _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(testClick:), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$testClick$, _typeEncoding); }MSHookMessageEx(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(observeValueForKeyPath:ofObject:change:context:), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$, (IMP*)&_logos_orig$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$);MSHookMessageEx(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(loadTableFooterView), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView, (IMP*)&_logos_orig$_ungrouped$HsAppointmentSubmitView$loadTableFooterView);} }
-#line 228 "Tweak.xm"
+#line 223 "Tweak.xm"
