@@ -9,7 +9,8 @@ export SYSROOT = $(THEOS)/sdks/sdks-master/iPhoneOS11.2.sdk
 TWEAK_NAME = xhyy
 xhyy_FILES = Tweak.xm
 
-xhyy_FRAMEWORKS = Foundation 
+xhyy_FRAMEWORKS = Foundation AdSupport
+xhyy_LDFLAGS += AVOSCloud.framework/AVOSCloud
 
 include $(THEOS)/makefiles/common.mk
 
