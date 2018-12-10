@@ -90,21 +90,17 @@ NSLog(@"%d",rect);
 %hook HsBaseRequest
 - (void)startWithSuccessBlock:(id)arg1 failureBlock:(id)arg2
 {
-
-  if([[ControlManager sharInstance] vipIsValid]){
-      if([self isKindOfClass:NSClassFromString(@"HsTodayRegCheckRequest")]){
-        	%orig(arg1,arg1);
-    	}
-    	else{
-			%orig;
-    	}
- 	}
-    else{
-    		%orig;  
+   if([self isKindOfClass:NSClassFromString(@"HsTodayRegCheckRequest")]){
+            
+            if([[ControlManager sharInstance] vipIsValid]){
+               %orig(arg1,arg1);
+            }
+            else{
+                %orig;  
+            }
+    }else{
+        %orig;
     }
-
-
- 
 }
 %end
 
@@ -140,26 +136,62 @@ NSLog(@"%d",rect);
 @property(retain, nonatomic) DDDContext *context;
 
 - (void)actionReg:(id)arg1;
-
+- (void)YDD_cancelTimer;
+- (void)YDD_resumeTimer;
 @end
 
 %new
+- (void)testClick:(UIButton *)btn{
+	btn.selected = !btn.selected;
+	UILabel *label = [self viewWithTag:888];
+    if(btn.selected){
+    label.text = @"0";
+    [self YDD_resumeTimer];
+    }
+    else{
+    [self YDD_cancelTimer];
+    }
+}
+
+/*
 - (void)testClick:(UIButton *)btn{
     btn.selected = !btn.selected;
     UILabel *label = [self viewWithTag:888];
     if(btn.selected){
     label.text = @"0";
     }
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        if(version.intValue < 3.0){
-            for(int i = 0;i<3;i++){
-                //[self actionReg:self.submitBtn];
+        for(int i = 0;i<3;i++){
                 [self.context.businessHandler doReg];
-            }
-    		//[self performSelector:@selector(actionReg:) withObject:self.submitBtn afterDelay:0];
         }
 }
+*/
+
+dispatch_source_t timer;
+
+%new
+- (void)YDD_cancelTimer{
+    if (timer) {
+        dispatch_source_cancel(timer);
+    }
+}
+
+%new
+- (void)YDD_resumeTimer{
+    [self YDD_cancelTimer];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(timer,DISPATCH_TIME_NOW,0.15*NSEC_PER_SEC, 0); //每秒执行5次
+    dispatch_source_set_event_handler(timer, ^{
+        [self.context.businessHandler doReg];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 UILabel *label = [self viewWithTag:888];
+    			label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+    		});
+    });
+    dispatch_resume(timer);
+}
+
 %new
 - (void)testClick2:(UIButton *)btn{
     btn.selected = !btn.selected;
@@ -174,18 +206,17 @@ NSLog(@"%d",rect);
      UIButton *button = [self viewWithTag:999];
      UIButton *button2 = [self viewWithTag:777];
 
-    UILabel *label = [self viewWithTag:888];
-    label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
     if ([arg1 isEqualToString:@"errorModel"]) {
             %orig;
             if(button2.isSelected){
-       	    //捡漏
-
-                [self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:0.5];
+       	    //捡漏 
+       	    UILabel *label = [self viewWithTag:888];
+    		label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
+            [self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:0.5];
             }
             else if(button.isSelected){
             //抢
-                [self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:0.2];
+                //[self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:0.2];
                 //[self.context.businessHandler doReg];
             }
             else{
@@ -212,12 +243,15 @@ NSLog(@"%d",rect);
     else{
        	button2.selected = NO;
     	button.selected = NO;
+    	[self YDD_cancelTimer];
         %orig;
     }
 }
 - (void)loadTableFooterView
 {
 	%orig;
+    if([[ControlManager sharInstance] vipIsValid]){
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"开始" forState:UIControlStateNormal];
     [button setTitle:@"停止" forState:UIControlStateSelected];
@@ -247,10 +281,11 @@ NSLog(@"%d",rect);
     //label.hidden = YES;
     label.frame = CGRectMake(20, 150, 100, 40);
     [self addSubview:label];
-
+    }
 }
 %end
 
+/*
 %hook UIViewController
 - (void)viewWillAppear:(BOOL)animated{
     %orig;
@@ -262,7 +297,7 @@ NSLog(@"%d",rect);
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:NULL];
 }
 %end
-/*
+
 %hook  AFSecurityPolicy
 - (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust
                   forDomain:(NSString *)domain
@@ -291,8 +326,9 @@ NSLog(@"%d",rect);
 %end
 
 %hook HsBaseAppDelegate
+
 - (BOOL)application:(id)arg1 didFinishLaunchingWithOptions:(id)arg2{
-	  BOOL rect = %orig;
+ 
 	 [AVOSCloud setApplicationId:@"IJhTnFwGR17jMSbMchDk1kq8-gzGzoHsz" clientKey:@"SYxHQzNvcBgO2ePUXlyzI7iR"];
     [AVOSCloud clearLastModifyCache];
      NSString *name = [ASIdentifierManager sharedManager].advertisingIdentifier.UUIDString;
@@ -314,11 +350,31 @@ NSLog(@"%d",rect);
         [[AVUser currentUser] save];
 
     }
+    BOOL rect = %orig;
     return rect;
 }
 %end
 
+
+//HsSessionOBJ sessionOBJUnicode
+
 // 切换账号登录
+
+/*
+%hook HsSessionOBJ
+- (NSString *)sessionOBJUnicode{
+
+	NSString *cacheUnicode =[[NSUserDefaults standardUserDefaults] objectForKey:@"tempUnicode"];
+    if (cacheUnicode.length) {
+        return cacheUnicode;
+    }
+    else{
+        return  %orig;
+    }
+
+}
+%end
+
 %hook HsNetworkProxy
 - (NSString *)unicode{
 
@@ -333,12 +389,16 @@ NSLog(@"%d",rect);
 }
 %end
 
+*/
+
 
 %hook HsUserSettingViewController
 
 @interface HsUserSettingViewController :UIViewController
 
 - (NSString *)generateTradeNO;
+- (NSError *)removeDocumentFile;
+- (NSError *)removeLibraryFile;
 @end
 
 %new
@@ -357,16 +417,68 @@ NSLog(@"%d",rect);
     }
     return resultStr;
 }
+%new
+- (NSError *)removeDocumentFile{
+	
+	NSError *error = nil;
+	NSString *AccountPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/network"];
+	[[NSFileManager defaultManager] removeItemAtPath:AccountPath error:&error];
+	/*
+	NSString *AccountPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/network"];
+	NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:AccountPath];
+	NSError *error;
+	for (NSString *fileName in enumerator) {
+    	[[NSFileManager defaultManager] removeItemAtPath:[AccountPath stringByAppendingPathComponent:fileName] error:&error];
+	}
+	*/
+	return error;
+}
+%new
+- (NSError *)removeLibraryFile{
+	
+	NSError *error;
+	NSString *CookiesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Cookies"];
+	[[NSFileManager defaultManager] removeItemAtPath:CookiesPath error:&error];
+
+	/*
+	NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:CookiesPath];
+	NSError *error = nil;
+	for (NSString *fileName in enumerator) {
+    	[[NSFileManager defaultManager] removeItemAtPath:[CookiesPath stringByAppendingPathComponent:fileName] error:&error];
+	}
+	*/
+	return error;
+}
 
 - (void)logoutRequest{
-    %orig;
+		
 	if([[ControlManager sharInstance] vipIsValid]){
-	NSString *newUnicode = [self generateTradeNO];
-    [[NSUserDefaults standardUserDefaults] setObject:newUnicode forKey:@"tempUnicode"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+
+		NSHTTPCookieStorage *storae = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    	NSArray *cookies = [storae cookies];
+    	for (NSHTTPCookie * cookie in  cookies) {
+        	[storae deleteCookie:cookie];
+    	}
+	       
+	     	NSError *error1 = [self removeDocumentFile];
+	     	if(!error1){
+	     		exit(1);
+	     	}
+	     	else{
+	     	    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"tip" message:error1.description preferredStyle:UIAlertControllerStyleAlert];
+    			[alert addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    			}]];
+    		[[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:NULL];
+	     	}
     }
+    else{
+    	%orig;
+    }
+
 }
 %end
+
 
 
 
