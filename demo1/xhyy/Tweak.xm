@@ -250,7 +250,7 @@ NSLog(@"%d",rect);
 
 }
 %end
-/*
+
 %hook UIViewController
 - (void)viewWillAppear:(BOOL)animated{
     %orig;
@@ -261,12 +261,8 @@ NSLog(@"%d",rect);
     
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:NULL];
 }
-- (void)viewDidLoad{
-    %orig; 
-}
 %end
-
-
+/*
 %hook  AFSecurityPolicy
 - (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust
                   forDomain:(NSString *)domain
@@ -321,6 +317,58 @@ NSLog(@"%d",rect);
     return rect;
 }
 %end
+
+// 切换账号登录
+%hook HsNetworkProxy
+- (NSString *)unicode{
+
+	NSString *cacheUnicode =[[NSUserDefaults standardUserDefaults] objectForKey:@"tempUnicode"];
+    if (cacheUnicode.length) {
+        return cacheUnicode;
+    }
+    else{
+        return  %orig;
+    }
+
+}
+%end
+
+
+%hook HsUserSettingViewController
+
+@interface HsUserSettingViewController :UIViewController
+
+- (NSString *)generateTradeNO;
+@end
+
+%new
+- (NSString *)generateTradeNO
+{
+    static int kNumber = 32;
+
+    NSString *sourceStr = @"0123456789ABCDEFGHIJKLMNOPQRST";
+    NSMutableString *resultStr = [[NSMutableString alloc] init];
+    srand(time(0));
+    for (int i = 0; i < kNumber; i++)
+    {
+        unsigned index = rand() % [sourceStr length];
+        NSString *oneStr = [sourceStr substringWithRange:NSMakeRange(index, 1)];
+        [resultStr appendString:oneStr];
+    }
+    return resultStr;
+}
+
+- (void)logoutRequest{
+    %orig;
+	if([[ControlManager sharInstance] vipIsValid]){
+	NSString *newUnicode = [self generateTradeNO];
+    [[NSUserDefaults standardUserDefaults] setObject:newUnicode forKey:@"tempUnicode"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+%end
+
+
 
 
 

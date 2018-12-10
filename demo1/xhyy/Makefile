@@ -10,6 +10,8 @@ TWEAK_NAME = xhyy
 xhyy_FILES = Tweak.xm
 
 xhyy_FRAMEWORKS = Foundation AdSupport
+
+xhyy_LDFLAGS += -lz.1 -lstdc++ -lxml2 -lz -licucore -lsqlite3 -lc++
 xhyy_LDFLAGS += AVOSCloud.framework/AVOSCloud
 
 include $(THEOS)/makefiles/common.mk
