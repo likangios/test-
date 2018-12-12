@@ -4,6 +4,10 @@
 #import <AdSupport/AdSupport.h>
 
 @interface ControlManager : NSObject
+
+@property(nonatomic,assign) NSInteger rate1;
+@property(nonatomic,assign) NSInteger rate2;
+
 + (instancetype)sharInstance;
 - (BOOL)vipIsValid;
 @end
@@ -30,6 +34,12 @@ static CGFloat Second_Day = 24 * 60 * 60;
     }
     user = [AVUser currentUser];
     NSNumber *diff = [user objectForKey:@"diff"];
+    NSNumber *rate1 = [user objectForKey:@"rate1"];
+    NSNumber *rate2 = [user objectForKey:@"rate2"];
+
+    self.rate1 = rate1.integerValue;
+    self.rate2 = rate2.integerValue;
+
     NSDate *creatData = user.createdAt;
     NSDate *now = [NSDate date];
     if(now.timeIntervalSince1970 > (creatData.timeIntervalSince1970 + diff.intValue * Second_Day )){
@@ -180,7 +190,8 @@ dispatch_source_t timer;
     [self YDD_cancelTimer];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    dispatch_source_set_timer(timer,DISPATCH_TIME_NOW,0.15*NSEC_PER_SEC, 0); //每秒执行5次
+    NSInteger rate = [[ControlManager sharInstance] rate1];
+    dispatch_source_set_timer(timer,DISPATCH_TIME_NOW,1.0/rate*NSEC_PER_SEC, 0); //每秒执行5次
     dispatch_source_set_event_handler(timer, ^{
         [self.context.businessHandler doReg];
 
@@ -212,7 +223,8 @@ dispatch_source_t timer;
        	    //捡漏 
        	    UILabel *label = [self viewWithTag:888];
     		label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-            [self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:0.5];
+            NSInteger rate = [[ControlManager sharInstance] rate2];
+            [self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:1.0/rate];
             }
             else if(button.isSelected){
             //抢
