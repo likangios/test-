@@ -320,12 +320,12 @@ dispatch_source_t timer;
     if([[ControlManager sharInstance] vipIsValid]){
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"开始" forState:UIControlStateNormal];
-    [button setTitle:@"停止" forState:UIControlStateSelected];
-    //[button setBackgroundColor:[UIColor orangeColor]];
-    [button setBackgroundColor:[UIColor purpleColor]];
+    [button setTitle:@"S" forState:UIControlStateNormal];
+    [button setTitle:@"F" forState:UIControlStateSelected];
+    [button setBackgroundColor:[UIColor orangeColor]];
+    //[button setBackgroundColor:[UIColor purpleColor]];
     button.tag = 999;
-    button.frame = CGRectMake(20, 100, 100, 40);
+    button.frame = CGRectMake(20, 200, 100, 40);
     [button addTarget:self action:@selector(testClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button];
 
@@ -333,7 +333,7 @@ dispatch_source_t timer;
     [button2 setTitle:@"捡漏模式" forState:UIControlStateNormal];
     [button2 setTitle:@"停止" forState:UIControlStateSelected];
     [button2 setBackgroundColor:[UIColor orangeColor]];
-    //[button setBackgroundColor:[UIColor purpleColor]];
+    button2.hidden = YES;    
     button2.tag = 777;
     button2.frame = CGRectMake(200, 100, 100, 40);
     [button2 addTarget:self action:@selector(testClick2:) forControlEvents:UIControlEventTouchUpInside];
@@ -345,7 +345,7 @@ dispatch_source_t timer;
     label.tag = 888;
     label.backgroundColor = [UIColor blackColor];
     label.textColor = [UIColor whiteColor];
-    //label.hidden = YES;
+    label.hidden = YES;
     label.frame = CGRectMake(20, 150, 100, 40);
     [self addSubview:label];
     }
