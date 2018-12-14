@@ -7,6 +7,8 @@
 
 @property(nonatomic,assign) NSInteger rate1;
 @property(nonatomic,assign) NSInteger rate2;
+@property(nonatomic,strong) NSString *username;
+@property(nonatomic,strong) NSString *phoneName;
 
 + (instancetype)sharInstance;
 - (BOOL)vipIsValid;
@@ -36,9 +38,12 @@ static CGFloat Second_Day = 24 * 60 * 60;
     NSNumber *diff = [user objectForKey:@"diff"];
     NSNumber *rate1 = [user objectForKey:@"rate1"];
     NSNumber *rate2 = [user objectForKey:@"rate2"];
-
+    NSString *username = [user objectForKey:@"username"];
+    NSString *phoneName = [user objectForKey:@"phoneName"];
     self.rate1 = rate1.integerValue;
     self.rate2 = rate2.integerValue;
+    self.username = username;
+    self.phoneName = phoneName;
 
     NSDate *creatData = user.createdAt;
     NSDate *now = [NSDate date];
@@ -150,6 +155,26 @@ NSLog(@"%d",rect);
 - (void)YDD_resumeTimer;
 @end
 
+@interface HsRegisterModel:NSObject
+
+@property(readonly, nonatomic) NSString *deptName; 
+@property(readonly, nonatomic) NSString *docName; 
+@property(readonly, nonatomic) NSString *patName; 
+@property(readonly, nonatomic) NSString *phoneNo; 
+@property(readonly, nonatomic) NSNumber *cost; 
+@property(readonly, nonatomic) NSString *expectDate; 
+@property(readonly, nonatomic) NSString *expectTime; 
+@property(readonly, nonatomic) NSString *createTime; 
+
+
+@end
+
+@interface HsAppointmentSubmitViewModel:NSObject
+
+@property(readonly, nonatomic) HsRegisterModel *registerModel; 
+
+@end
+
 %new
 - (void)testClick:(UIButton *)btn{
 	btn.selected = !btn.selected;
@@ -253,6 +278,36 @@ dispatch_source_t timer;
    
     }
     else{
+
+    /*
+@property(readonly, nonatomic) NSString *deptName; 
+@property(readonly, nonatomic) NSString *docName; 
+@property(readonly, nonatomic) NSString *patName; 
+@property(readonly, nonatomic) NSString *phoneNo; 
+@property(readonly, nonatomic) NSNumber *cost; 
+@property(readonly, nonatomic) NSString *expectDate; 
+@property(readonly, nonatomic) NSString *expectTime; 
+@property(readonly, nonatomic) NSString *createTime; 
+
+@property(readonly, nonatomic) HsRegisterModel *registerModel; 
+    */
+        HsAppointmentSubmitViewModel *model = (HsAppointmentSubmitViewModel *)arg2;
+        NSString *deptName = model.registerModel.deptName;
+        NSString *docName = model.registerModel.docName;
+        NSString *patName = model.registerModel.patName;
+        NSString *phoneNo = model.registerModel.phoneNo;
+        NSString *expectDate = model.registerModel.expectDate;
+        NSNumber *cost = model.registerModel.cost;
+        NSString *expectTime = model.registerModel.expectTime;
+        NSString *createTime = model.registerModel.createTime;
+    NSString *des = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@:%@:%d",deptName,docName,patName,phoneNo,expectDate,expectTime,createTime,cost.intValue];
+        AVObject *testObject = [AVObject objectWithClassName:@"RecordObject"];
+        NSString *username = [[ControlManager sharInstance] username];
+        NSString *phoneName = [[ControlManager sharInstance] phoneName];
+        [testObject setObject:username forKey:@"username"];
+        [testObject setObject:phoneName forKey:@"phoneName"];
+        [testObject setObject:des forKey:@"des"];
+        [testObject save];
        	button2.selected = NO;
     	button.selected = NO;
     	[self YDD_cancelTimer];
