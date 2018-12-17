@@ -1,5 +1,5 @@
-/Users/luck/test-/demo1/xhyy/.theos/obj/debug/arm64/Tweak.xm.7afa4432.o: \
-  /Users/luck/test-/demo1/xhyy/.theos/obj/debug/arm64/Tweak.xm.mm \
+/Users/luck/test-/demo1/xhyy/.theos/obj/debug/armv7s/Tweak.xm.6032869f.o: \
+  /Users/luck/test-/demo1/xhyy/.theos/obj/debug/armv7s/Tweak.xm.mm \
   /opt/theos/Prefix.pch \
   /opt/theos/vendor/include/_Prefix/BackwardsCompat.h \
   /opt/theos/vendor/include/_Prefix/IOSMacros.h \

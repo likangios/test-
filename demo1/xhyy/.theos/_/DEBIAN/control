@@ -1,10 +1,10 @@
 Package: com.luck.xhyy
 Name: Test
-Depends: mobilesubstrate,firmware(>=9.0)
+Depends: mobilesubstrate,firmware(>=8.0)
 Architecture: iphoneos-arm
 Description: An awesome MobileSubstrate tweak!
 Maintainer: luck
 Author: luck
 Section: Tweaks
-Version: 1.0-96+debug
+Version: 1.0-106+debug
 Installed-Size: 2120

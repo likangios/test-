@@ -1,6 +1,6 @@
 
 ARCHS =  arm64
-TARGET = iphone:clang:11.2:9.0
+TARGET = iphone:clang:11.2:8.0
 
 #export SDKVERSION = 9.3
 

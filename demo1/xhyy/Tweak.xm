@@ -47,12 +47,20 @@ static CGFloat Second_Day = 24 * 60 * 60;
 
     NSDate *creatData = user.createdAt;
     NSDate *now = [NSDate date];
-    if(now.timeIntervalSince1970 > (creatData.timeIntervalSince1970 + diff.intValue * Second_Day )){
-        return NO;
+    NSNumber *number =[[NSUserDefaults standardUserDefaults] objectForKey:@"HsAboutusViewController"];
+    if (number.integerValue == 1) {
+            if(now.timeIntervalSince1970 > (creatData.timeIntervalSince1970 + diff.intValue * Second_Day )){
+            return NO;
+            }
+            else{
+            return YES;
+            }
     }
     else{
-        return YES;
+        return NO;
+  
     }
+
 }
 @end
 
@@ -118,7 +126,6 @@ NSLog(@"%d",rect);
     }
 }
 %end
-
 
 @interface DDDDataHandler:NSObject
 
@@ -320,8 +327,8 @@ dispatch_source_t timer;
     if([[ControlManager sharInstance] vipIsValid]){
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"S" forState:UIControlStateNormal];
-    [button setTitle:@"F" forState:UIControlStateSelected];
+    [button setTitle:@"开始" forState:UIControlStateNormal];
+    [button setTitle:@"停止" forState:UIControlStateSelected];
     [button setBackgroundColor:[UIColor orangeColor]];
     //[button setBackgroundColor:[UIColor purpleColor]];
     button.tag = 999;
@@ -352,19 +359,27 @@ dispatch_source_t timer;
 }
 %end
 
-/*
+
 %hook UIViewController
 - (void)viewWillAppear:(BOOL)animated{
     %orig;
+
+    NSString *className = NSStringFromClass(self.class);
+    if ([className isEqualToString:@"HsAboutusViewController"]) {
+        [[NSUserDefaults standardUserDefaults] setValue:@1 forKey:@"HsAboutusViewController"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    /*
      UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"tip" message:NSStringFromClass(self.class) preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
     }]];
     
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:NULL];
+    */
 }
 %end
-
+/*
 %hook  AFSecurityPolicy
 - (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust
                   forDomain:(NSString *)domain

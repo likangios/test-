@@ -1,4 +1,4 @@
-/Users/luck/test-/demo1/xhyy/.theos/obj/debug/arm64/Tweak.xm.7afa4432.o: \
+/Users/luck/test-/demo1/xhyy/.theos/obj/debug/arm64/Tweak.xm.172f74f6.o: \
   /Users/luck/test-/demo1/xhyy/.theos/obj/debug/arm64/Tweak.xm.mm \
   /opt/theos/Prefix.pch \
   /opt/theos/vendor/include/_Prefix/BackwardsCompat.h \
