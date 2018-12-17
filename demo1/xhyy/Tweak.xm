@@ -242,7 +242,8 @@ dispatch_source_t timer;
     if(btn.selected){
     label.text = @"0";
     }
-    [self.context.businessHandler doReg];
+    [self actionReg:self.submitBtn];
+    //[self.context.businessHandler doReg];
 }
 
 - (void)observeValueForKeyPath:(NSString *)arg1 ofObject:(id)arg2 change:(id)arg3 context:(void *)arg4{
@@ -255,8 +256,9 @@ dispatch_source_t timer;
        	    //捡漏 
        	    UILabel *label = [self viewWithTag:888];
     		label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-            NSInteger rate = [[ControlManager sharInstance] rate2];
-            [self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:1.0/rate];
+            //NSInteger rate = [[ControlManager sharInstance] rate2];
+            [self actionReg:self.submitBtn];
+            //[self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:1.0/rate];
             }
             else if(button.isSelected){
             //抢
@@ -285,19 +287,6 @@ dispatch_source_t timer;
    
     }
     else{
-
-    /*
-@property(readonly, nonatomic) NSString *deptName; 
-@property(readonly, nonatomic) NSString *docName; 
-@property(readonly, nonatomic) NSString *patName; 
-@property(readonly, nonatomic) NSString *phoneNo; 
-@property(readonly, nonatomic) NSNumber *cost; 
-@property(readonly, nonatomic) NSString *expectDate; 
-@property(readonly, nonatomic) NSString *expectTime; 
-@property(readonly, nonatomic) NSString *createTime; 
-
-@property(readonly, nonatomic) HsRegisterModel *registerModel; 
-    */
         HsAppointmentSubmitViewModel *model = (HsAppointmentSubmitViewModel *)arg2;
         NSString *deptName = model.registerModel.deptName;
         NSString *docName = model.registerModel.docName;
@@ -340,7 +329,7 @@ dispatch_source_t timer;
     [button2 setTitle:@"捡漏模式" forState:UIControlStateNormal];
     [button2 setTitle:@"停止" forState:UIControlStateSelected];
     [button2 setBackgroundColor:[UIColor orangeColor]];
-    button2.hidden = YES;    
+    //button2.hidden = YES;    
     button2.tag = 777;
     button2.frame = CGRectMake(200, 100, 100, 40);
     [button2 addTarget:self action:@selector(testClick2:) forControlEvents:UIControlEventTouchUpInside];

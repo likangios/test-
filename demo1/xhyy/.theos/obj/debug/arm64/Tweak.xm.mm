@@ -87,7 +87,7 @@ static CGFloat Second_Day = 24 * 60 * 60;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class HsDoctorVisitListDataHandler; @class HsTodayDocSchListDataHandler; @class HsUserSettingViewController; @class HsBaseAppDelegate; @class UIViewController; @class HsBaseRequest; @class HsAppointmentSubmitView; 
+@class HsBaseAppDelegate; @class HsDoctorVisitListDataHandler; @class HsTodayDocSchListDataHandler; @class HsUserSettingViewController; @class HsAppointmentSubmitView; @class UIViewController; @class HsBaseRequest; 
 static BOOL (*_logos_orig$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$)(_LOGOS_SELF_TYPE_NORMAL HsTodayDocSchListDataHandler* _LOGOS_SELF_CONST, SEL, id); static BOOL _logos_method$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$(_LOGOS_SELF_TYPE_NORMAL HsTodayDocSchListDataHandler* _LOGOS_SELF_CONST, SEL, id); static void (*_logos_orig$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$)(_LOGOS_SELF_TYPE_NORMAL HsBaseRequest* _LOGOS_SELF_CONST, SEL, id, id); static void _logos_method$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$(_LOGOS_SELF_TYPE_NORMAL HsBaseRequest* _LOGOS_SELF_CONST, SEL, id, id); static void _logos_method$_ungrouped$HsAppointmentSubmitView$testClick$(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL, UIButton *); static void _logos_method$_ungrouped$HsAppointmentSubmitView$YDD_cancelTimer(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$HsAppointmentSubmitView$YDD_resumeTimer(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$HsAppointmentSubmitView$testClick2$(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL, UIButton *); static void (*_logos_orig$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$)(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL, NSString *, id, id, void *); static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL, NSString *, id, id, void *); static void (*_logos_orig$_ungrouped$HsAppointmentSubmitView$loadTableFooterView)(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$_ungrouped$UIViewController$viewWillAppear$)(_LOGOS_SELF_TYPE_NORMAL UIViewController* _LOGOS_SELF_CONST, SEL, BOOL); static void _logos_method$_ungrouped$UIViewController$viewWillAppear$(_LOGOS_SELF_TYPE_NORMAL UIViewController* _LOGOS_SELF_CONST, SEL, BOOL); static BOOL (*_logos_orig$_ungrouped$HsDoctorVisitListDataHandler$isEnableClickBtn$)(_LOGOS_SELF_TYPE_NORMAL HsDoctorVisitListDataHandler* _LOGOS_SELF_CONST, SEL, id); static BOOL _logos_method$_ungrouped$HsDoctorVisitListDataHandler$isEnableClickBtn$(_LOGOS_SELF_TYPE_NORMAL HsDoctorVisitListDataHandler* _LOGOS_SELF_CONST, SEL, id); static BOOL (*_logos_orig$_ungrouped$HsBaseAppDelegate$application$didFinishLaunchingWithOptions$)(_LOGOS_SELF_TYPE_NORMAL HsBaseAppDelegate* _LOGOS_SELF_CONST, SEL, id, id); static BOOL _logos_method$_ungrouped$HsBaseAppDelegate$application$didFinishLaunchingWithOptions$(_LOGOS_SELF_TYPE_NORMAL HsBaseAppDelegate* _LOGOS_SELF_CONST, SEL, id, id); static NSString * _logos_method$_ungrouped$HsUserSettingViewController$generateTradeNO(_LOGOS_SELF_TYPE_NORMAL HsUserSettingViewController* _LOGOS_SELF_CONST, SEL); static NSError * _logos_method$_ungrouped$HsUserSettingViewController$removeDocumentFile(_LOGOS_SELF_TYPE_NORMAL HsUserSettingViewController* _LOGOS_SELF_CONST, SEL); static NSError * _logos_method$_ungrouped$HsUserSettingViewController$removeLibraryFile(_LOGOS_SELF_TYPE_NORMAL HsUserSettingViewController* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$_ungrouped$HsUserSettingViewController$logoutRequest)(_LOGOS_SELF_TYPE_NORMAL HsUserSettingViewController* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$HsUserSettingViewController$logoutRequest(_LOGOS_SELF_TYPE_NORMAL HsUserSettingViewController* _LOGOS_SELF_CONST, SEL); 
 
 #line 68 "Tweak.xm"
@@ -268,7 +268,8 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$testClick2$(_LOGOS_
     if(btn.selected){
     label.text = @"0";
     }
-    [self.context.businessHandler doReg];
+    [self actionReg:self.submitBtn];
+    
 }
 
 static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$(_LOGOS_SELF_TYPE_NORMAL HsAppointmentSubmitView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, NSString * arg1, id arg2, id arg3, void * arg4){
@@ -281,8 +282,9 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyP
        	    
        	    UILabel *label = [self viewWithTag:888];
     		label.text = [NSString stringWithFormat:@"%d",label.text.intValue+1];
-            NSInteger rate = [[ControlManager sharInstance] rate2];
-            [self.context.businessHandler performSelector:@selector(doReg) withObject:nil afterDelay:1.0/rate];
+            
+            [self actionReg:self.submitBtn];
+            
             }
             else if(button.isSelected){
             
@@ -311,19 +313,6 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyP
    
     }
     else{
-
-    
-
-
-
-
-
-
-
-
-
-
-
         HsAppointmentSubmitViewModel *model = (HsAppointmentSubmitViewModel *)arg2;
         NSString *deptName = model.registerModel.deptName;
         NSString *docName = model.registerModel.docName;
@@ -366,7 +355,7 @@ static void _logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView
     [button2 setTitle:@"捡漏模式" forState:UIControlStateNormal];
     [button2 setTitle:@"停止" forState:UIControlStateSelected];
     [button2 setBackgroundColor:[UIColor orangeColor]];
-    button2.hidden = YES;    
+    
     button2.tag = 777;
     button2.frame = CGRectMake(200, 100, 100, 40);
     [button2 addTarget:self action:@selector(testClick2:) forControlEvents:UIControlEventTouchUpInside];
@@ -599,4 +588,4 @@ static void _logos_method$_ungrouped$HsUserSettingViewController$logoutRequest(_
 
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$HsTodayDocSchListDataHandler = objc_getClass("HsTodayDocSchListDataHandler"); MSHookMessageEx(_logos_class$_ungrouped$HsTodayDocSchListDataHandler, @selector(isEnableClickBtn:), (IMP)&_logos_method$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$, (IMP*)&_logos_orig$_ungrouped$HsTodayDocSchListDataHandler$isEnableClickBtn$);Class _logos_class$_ungrouped$HsBaseRequest = objc_getClass("HsBaseRequest"); MSHookMessageEx(_logos_class$_ungrouped$HsBaseRequest, @selector(startWithSuccessBlock:failureBlock:), (IMP)&_logos_method$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$, (IMP*)&_logos_orig$_ungrouped$HsBaseRequest$startWithSuccessBlock$failureBlock$);Class _logos_class$_ungrouped$HsAppointmentSubmitView = objc_getClass("HsAppointmentSubmitView"); { char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; memcpy(_typeEncoding + i, @encode(UIButton *), strlen(@encode(UIButton *))); i += strlen(@encode(UIButton *)); _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(testClick:), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$testClick$, _typeEncoding); }{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(YDD_cancelTimer), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$YDD_cancelTimer, _typeEncoding); }{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(YDD_resumeTimer), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$YDD_resumeTimer, _typeEncoding); }{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; memcpy(_typeEncoding + i, @encode(UIButton *), strlen(@encode(UIButton *))); i += strlen(@encode(UIButton *)); _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(testClick2:), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$testClick2$, _typeEncoding); }MSHookMessageEx(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(observeValueForKeyPath:ofObject:change:context:), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$, (IMP*)&_logos_orig$_ungrouped$HsAppointmentSubmitView$observeValueForKeyPath$ofObject$change$context$);MSHookMessageEx(_logos_class$_ungrouped$HsAppointmentSubmitView, @selector(loadTableFooterView), (IMP)&_logos_method$_ungrouped$HsAppointmentSubmitView$loadTableFooterView, (IMP*)&_logos_orig$_ungrouped$HsAppointmentSubmitView$loadTableFooterView);Class _logos_class$_ungrouped$UIViewController = objc_getClass("UIViewController"); MSHookMessageEx(_logos_class$_ungrouped$UIViewController, @selector(viewWillAppear:), (IMP)&_logos_method$_ungrouped$UIViewController$viewWillAppear$, (IMP*)&_logos_orig$_ungrouped$UIViewController$viewWillAppear$);Class _logos_class$_ungrouped$HsDoctorVisitListDataHandler = objc_getClass("HsDoctorVisitListDataHandler"); MSHookMessageEx(_logos_class$_ungrouped$HsDoctorVisitListDataHandler, @selector(isEnableClickBtn:), (IMP)&_logos_method$_ungrouped$HsDoctorVisitListDataHandler$isEnableClickBtn$, (IMP*)&_logos_orig$_ungrouped$HsDoctorVisitListDataHandler$isEnableClickBtn$);Class _logos_class$_ungrouped$HsBaseAppDelegate = objc_getClass("HsBaseAppDelegate"); MSHookMessageEx(_logos_class$_ungrouped$HsBaseAppDelegate, @selector(application:didFinishLaunchingWithOptions:), (IMP)&_logos_method$_ungrouped$HsBaseAppDelegate$application$didFinishLaunchingWithOptions$, (IMP*)&_logos_orig$_ungrouped$HsBaseAppDelegate$application$didFinishLaunchingWithOptions$);Class _logos_class$_ungrouped$HsUserSettingViewController = objc_getClass("HsUserSettingViewController"); { char _typeEncoding[1024]; unsigned int i = 0; memcpy(_typeEncoding + i, @encode(NSString *), strlen(@encode(NSString *))); i += strlen(@encode(NSString *)); _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsUserSettingViewController, @selector(generateTradeNO), (IMP)&_logos_method$_ungrouped$HsUserSettingViewController$generateTradeNO, _typeEncoding); }{ char _typeEncoding[1024]; unsigned int i = 0; memcpy(_typeEncoding + i, @encode(NSError *), strlen(@encode(NSError *))); i += strlen(@encode(NSError *)); _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsUserSettingViewController, @selector(removeDocumentFile), (IMP)&_logos_method$_ungrouped$HsUserSettingViewController$removeDocumentFile, _typeEncoding); }{ char _typeEncoding[1024]; unsigned int i = 0; memcpy(_typeEncoding + i, @encode(NSError *), strlen(@encode(NSError *))); i += strlen(@encode(NSError *)); _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$HsUserSettingViewController, @selector(removeLibraryFile), (IMP)&_logos_method$_ungrouped$HsUserSettingViewController$removeLibraryFile, _typeEncoding); }MSHookMessageEx(_logos_class$_ungrouped$HsUserSettingViewController, @selector(logoutRequest), (IMP)&_logos_method$_ungrouped$HsUserSettingViewController$logoutRequest, (IMP*)&_logos_orig$_ungrouped$HsUserSettingViewController$logoutRequest);} }
-#line 574 "Tweak.xm"
+#line 563 "Tweak.xm"
