@@ -251,7 +251,6 @@ dispatch_source_t timer;
      UIButton *button2 = [self viewWithTag:777];
 
     if ([arg1 isEqualToString:@"errorModel"]) {
-            %orig;
             if(button2.isSelected){
        	    //捡漏 
        	    UILabel *label = [self viewWithTag:888];
@@ -270,21 +269,24 @@ dispatch_source_t timer;
 
 
             }
-            /*
-            if([[[[arg2 valueForKeyPath:@"errorModel"] valueForKeyPath:@"userInfo"] valueForKeyPath:@"msg"] isEqualToString:@"该就诊人已有一个预约申请正在处理中,请耐心等待"]){
-                 button.selected = NO;
+            //频率过高请休息一下
+            //该就诊人已有一个预约申请正在处理中,请耐心等待
+            if([[[[arg2 valueForKeyPath:@"errorModel"] valueForKeyPath:@"userInfo"] valueForKeyPath:@"msg"] containsString:@"频率过高"]){
+                       
+                 //button.selected = NO;
             }
             else{
+             %orig;
+                /*
                 if (button.isSelected) {
                     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
                     if(version.intValue < 3.0){
                             [self.context.businessHandler doReg];
                     }   
                 }
+                */
 
-            }
-            */
-   
+            }   
     }
     else{
         HsAppointmentSubmitViewModel *model = (HsAppointmentSubmitViewModel *)arg2;
